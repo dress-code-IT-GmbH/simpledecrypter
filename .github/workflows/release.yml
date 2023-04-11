@@ -23,5 +23,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        file: project/decryptorservice
+        file: project/decryptorservice;README.md;LICENSE
         draft: false
