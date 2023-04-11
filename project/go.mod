@@ -1,4 +1,4 @@
-module simpledecryptor
+module decryptorservice
 
 go 1.16
 

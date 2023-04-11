@@ -3,6 +3,7 @@ package zlogger
 import (
 	"bytes"
 	"github.com/rs/zerolog"
+	"strings"
 	"testing"
 )
 
@@ -28,7 +29,7 @@ func TestGetLogger(t *testing.T) {
 	newlogger := mylogger.Output(out)
 	newlogger.Error().Msg("footext")
 	got := string(out.Bytes())
-	if got == "{\"level\":\"error\",\"component\":\"foobar.test\",\"time\":1680920893,\"message\":\"footext\"}\n" {
+	if strings.Contains(got, "{\"level\":\"error\",\"component\":\"foobar.test\"") {
 		return
 	}
 	t.Errorf("logger did not log expected line")
