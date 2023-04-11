@@ -15,10 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: compile and release
-      uses: ngs/go-release.action@v1.0.1
+    - uses: actions/setup-go@v4
+    - name: Build
+      run: |
+          bash build.sh
+    - uses: xresloader/upload-to-github-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GOARCH: amd64
-        GOOS: linux
-        EXTRA_FILES: "LICENSE"
+      with:
+        file: project/decryptorservice
+        draft: false
