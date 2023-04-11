@@ -11,6 +11,8 @@ jobs:
   releases-matrix:
     name: Release Go Binary
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     strategy:
       matrix:
         # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
@@ -30,5 +32,4 @@ jobs:
         goarch: ${{ matrix.goarch }}
         goversion: "https://dl.google.com/go/go1.16.1.linux-amd64.tar.gz"
         project_path: "./project"
-        binary_name: "decryptorservice"
         extra_files: LICENSE README.md
