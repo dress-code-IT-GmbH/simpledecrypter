@@ -9,8 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func Decrypt(cipherTextB64Str string, key *rsa.PrivateKey) (string, error) {
-	logger := zlogger.GetLogger("decryptor.base64OeapSha1.Decrypt")
+func B64Decode(cipherTextB64Str string) (string, error) {
 	cipherTextB64 := []byte(cipherTextB64Str)
 	cipherText := make([]byte, base64.StdEncoding.DecodedLen(len(cipherTextB64)))
 	n, e := base64.StdEncoding.Decode(cipherText, cipherTextB64)
@@ -19,6 +18,11 @@ func Decrypt(cipherTextB64Str string, key *rsa.PrivateKey) (string, error) {
 		logger.Error().Err(err).Msg("")
 		return "", err
 	}
+	return n, e
+}
+
+func Decrypt(cipherTextB64Str string, key *rsa.PrivateKey) (string, error) {
+	logger := zlogger.GetLogger("decryptor.base64OeapSha1.Decrypt")
 	cipherText = cipherText[:n]
 	clearText, e := rsa.DecryptOAEP(sha1.New(), nil, key, cipherText, []byte(""))
 	if e != nil {
