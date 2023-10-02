@@ -5,13 +5,15 @@ import (
 	"path/filepath"
 )
 
-type CollectionEntry struct {
+type PemCollection struct {
 	filePath string
 	cert     tls.Certificate
 }
 
-func (ce *CollectionEntry) New(filePath string) error {
+func (ce *PemCollection) New(filePath string, password string) error {
 	ce.filePath = filepath.Clean(filePath)
-	_ = ce.readFromFile()
-	ce.cert, _ = tls.LoadX509KeyPair(ce.filePath, ce.filePath)
+	ce.cert, _ = LoadPemCollection(ce.filePath, password)
+	return nil
 }
+
+func (ce *PemCollection) Keys()
