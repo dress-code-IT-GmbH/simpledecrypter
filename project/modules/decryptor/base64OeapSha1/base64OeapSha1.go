@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func B64Decode(cipherTextB64Str string) (string, error) {
+func B64Decode(cipherTextB64Str string) ([]byte, error) {
 	logger := zlogger.GetLogger("decryptor.B64Decode.Decrypt")
 	cipherTextB64 := []byte(cipherTextB64Str)
 	cipherText := make([]byte, base64.StdEncoding.DecodedLen(len(cipherTextB64)))
@@ -17,20 +17,19 @@ func B64Decode(cipherTextB64Str string) (string, error) {
 	if e != nil {
 		err := errors.Wrap(e, "base64 decoding failed")
 		logger.Error().Err(err).Msg("")
-		return "", err
+		return nil, err
 	}
 	cipherText = cipherText[:n]
-	return string(cipherText), nil
+
+	return cipherText, nil
 }
 
 func Decrypt(cipherTextB64Str string, key *rsa.PrivateKey) (string, error) {
 	logger := zlogger.GetLogger("decryptor.base64OeapSha1.Decrypt")
 	cipherText, e := B64Decode(cipherTextB64Str) // Hier wird B64Decode aufgerufen
-	//cipherText = B64Decode(cipherTextB64Str)
-	//clearText, e := rsa.DecryptOAEP(sha1.New(), nil, key, cipherText, []byte(""))
-	clearText, e := rsa.DecryptOAEP(sha1.New(), nil, key, []byte(cipherText), []byte(""))
+	clearText, e := rsa.DecryptOAEP(sha1.New(), nil, key, cipherText, []byte(""))
 	if e != nil {
-		err := errors.Wrap(e, "decryption failed")
+		err := errors.Wrap(e, "base64 decoding failed")
 		logger.Error().Err(err).Msg("")
 		return "", err
 	}
