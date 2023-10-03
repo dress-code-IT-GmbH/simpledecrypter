@@ -5,6 +5,7 @@ go 1.16
 replace dc.local/zlogger => ./../../modules/zlogger
 
 replace dc.local/decryptor/base64OeapSha1 => ./../../modules/decryptor/base64OeapSha1
+replace dc.local/decryptor/base64OeapSha256 => ./../../modules/decryptor/base64OeapSha256
 
 replace dc.local.decryptorservice/pkg/cryptkey => ../../pkg/cryptkey
 
