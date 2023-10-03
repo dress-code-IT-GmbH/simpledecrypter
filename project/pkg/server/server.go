@@ -46,7 +46,7 @@ func decryptDataHandler(privateKey *cryptkey.CryptKey) func(http.ResponseWriter,
 			privKey, _ := privateKey.GetPrivateKey()
 			clearText, _ := base64OeapSha1.Decrypt(jsonRequestData.Ctxt, privKey)
 			resp = JsonResponse{Txt: clearText}
-		}
+		} // @todo: Add Sha256 (if...)
 		str_resp, _ := json.Marshal(resp)
 		if len(resp.Txt) > 0 {
 			_, err := fmt.Fprintf(w, string(str_resp))

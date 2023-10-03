@@ -4,10 +4,9 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha1"
-	"encoding/base64"
-
 	"dc.local/decryptor/common"
 	"dc.local/zlogger"
+	"encoding/base64"
 	"github.com/pkg/errors"
 )
 
