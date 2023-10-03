@@ -4,6 +4,7 @@ import (
 	"dc.local.decryptorservice/pkg/config"
 	"dc.local.decryptorservice/pkg/cryptkey"
 	"dc.local/decryptor/base64OeapSha1"
+	"dc.local/decryptor/base64OeapSha256"
 	"dc.local/zlogger"
 	"encoding/json"
 	"fmt"
@@ -46,7 +47,12 @@ func decryptDataHandler(privateKey *cryptkey.CryptKey) func(http.ResponseWriter,
 			privKey, _ := privateKey.GetPrivateKey()
 			clearText, _ := base64OeapSha1.Decrypt(jsonRequestData.Ctxt, privKey)
 			resp = JsonResponse{Txt: clearText}
-		} // @todo: Add Sha256 (if...)
+		}
+		if jsonRequestData.C == "base64OeapSha256" {
+			privKey, _ := privateKey.GetPrivateKey()
+			clearText, _ := base64OeapSha256.Decrypt(jsonRequestData.Ctxt, privKey)
+			resp = JsonResponse{Txt: clearText}
+		}
 		str_resp, _ := json.Marshal(resp)
 		if len(resp.Txt) > 0 {
 			_, err := fmt.Fprintf(w, string(str_resp))
